@@ -18,16 +18,36 @@ import math
 #     self.estimatedPosition = estimatedPosition
 #     self.lastPosition = lastPosition
 
-def angleOfArrival(self):
-    print(f'Hi')
+
+def triangulation(z, angleValues):
+    angle = 180 - angleValues[0] - angleValues[1]
+    a = z * math.sin(angleValues[0]) / math.sin(angle)
+    h = math.sin(angleValues[1] / a)
+    m = h / math.cos(angleValues[1])
+    m = z - m
+    return m, h
 
 
-def trilateration(self):
-    print(f'Hi')
+def triangulation2(z, angleValues):
+    # angle = 180 - angleValues[0] - angleValues[1]
+    # k = (z*cotB)/(cotB+cotA)
+    k = (z * (math.cos(angleValues[1]) / math.sin(angleValues[1]))) / (
+            (math.cos(angleValues[1]) / math.sin(angleValues[1])) + (
+            math.cos(angleValues[0]) / math.sin(angleValues[0])))
+    m = z - k
+    h = k / (math.cos(angleValues[1]) / math.sin(angleValues[1]))
+    return m, h
 
 
-def triangulation(angleValues):
-    print(f'Hi')
+def angleOfArrival(angleValues):
+    x1 = 0
+    y1 = 0
+    x2 = 10
+    y2 = 10
+    z = math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2)
+    z = math.sqrt(z)
+    m, h = triangulation(z, angleValues)
+    return m, h
 
 
 def trilateration(x1, x2, x3, y1, y2, y3, rssiValues):
@@ -90,10 +110,13 @@ if __name__ == '__main__':
     # device bilgisini çekip, angle valuelarını angleValues listine atıcaz
     # sonra angle listine device ve angleValues listini atıcaz
 
-    # angle1 = input("Enter first angle value: ")
-    # angle2 = input("Enter second angle value: ")
-    # angleValues = [angle1, angle2]
+    angle1 = (int)(input("Enter first angle value: "))
+    angle2 = (int)(input("Enter second angle value: "))
+    angleValues = [angle1, angle2]
 
     x, y = rssiBased(rssiValues)
+    m, h = angleOfArrival(angleValues)
     print(x)
     print(y)
+    print(m)
+    print(h)
