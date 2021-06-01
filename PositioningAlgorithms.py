@@ -1,5 +1,6 @@
 import math
 
+
 def triangulation(c, angleValues):
     A = angleValues[0]
     B = angleValues[1]
@@ -12,7 +13,7 @@ def triangulation(c, angleValues):
 
 def angleOfArrival(angleValues):
     x1 = 0
-    x2 = 30
+    x2 = 460
     c = x2 - x1
     m, h = triangulation(c, angleValues)
     return m, h
@@ -37,13 +38,12 @@ def trilateration(x1, x2, x3, y1, y2, y3, rssiValues):
 def rssiBased(rssiValues):
     x1 = 0
     y1 = 0
-    x2 = 10
-    y2 = 10
+    x2 = 580
+    y2 = 0
     x3 = 0
-    y3 = 10
+    y3 = 460
     x, y = trilateration(x1, x2, x3, y1, y2, y3, rssiValues)
     return x, y
-
 
 # def resultOfAlgorithms(self, rssiPos, anglePos):
 #     positonX = input("Enter x coordiante: ")
@@ -63,4 +63,3 @@ def rssiBased(rssiValues):
 #         return "Angle of Arrival Algorithm is better."
 #     else:
 #         return "Both algorithms give results with the same accuracy."
-

@@ -17,15 +17,13 @@ db = firebase.database()
 
 
 def addDeviceToDatabase(id, posX, posY, time):
-    data = {'posX': posX, 'posY': posY}
+    data = {'id': id, 'posX': posX, 'posY': posY, 'time': time}
     db.child("Devices").child(id).child(time).set(data)
 
 
 def takeInfoFromDatabase():
     f = open("C://Users//pelsi//OneDrive//Masaüstü//LOCATIONS.txt", "w+")
     devices = db.child("Devices").get()
-    numOfDatas = len(db.child('Devices').child("1").get().val())
-    f.write(str(numOfDatas))
     f.write("\n")
     for device in devices.each():
         data = str(device.val())
@@ -39,3 +37,23 @@ def takeInfoFromDatabase():
             if counter == 2:
                 f.write("\n")
     f.close()
+
+
+def takeRSSIFromDatabase():
+    id = 1
+    allRssiVal = []
+    while (True):
+        slave = "Slave" + str(id)
+        rssi1 = db.child("BLESlaves").child(slave).child("rssidev1").get().val()
+        rssi2 = db.child("BLESlaves").child(slave).child("rssidev2").get().val()
+        rssi3 = db.child("BLESlaves").child(slave).child("rssidev3").get().val()
+        rssiValues = []
+        rssiValues.append(rssi1)
+        rssiValues.append(rssi2)
+        rssiValues.append(rssi3)
+        rssiValues.append(id)
+        allRssiVal.append(rssiValues)
+        if id == 5:
+            break
+        id += 1
+    return allRssiVal
